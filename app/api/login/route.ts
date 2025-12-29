@@ -1,5 +1,7 @@
 import { database } from "@/lib/database";
+import { generateToken } from "@/lib/jwt";
 import { verify } from "argon2";
+import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
 import { NextRequest, NextResponse } from "next/server";
@@ -26,6 +28,18 @@ export async function POST(req: NextRequest) {
         if (!(await verify(user.password_hash, password.toString()))) {
             return NextResponse.redirect(new URL('/login?e=invalid_credentials', req.url));
         }
+
+        const payload = {
+            id: user.id,
+            username: user.username,
+            email: user.email
+        }
+
+        const accessToken = generateToken(payload, 'access');
+        const refreshToken = generateToken(payload, 'refresh');
+
+        (await cookies()).set('accessToken', accessToken);
+        (await cookies()).set('refreshToken', refreshToken);
     } catch (error) {
         console.error({ error });
         return NextResponse.redirect(new URL('/login?e=server_error', req.url));
