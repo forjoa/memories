@@ -40,6 +40,7 @@ export async function POST(req: NextRequest) {
 
         (await cookies()).set('accessToken', accessToken);
         (await cookies()).set('refreshToken', refreshToken);
+        (await cookies()).set('user', user.id);
     } catch (error) {
         console.error({ error });
         return NextResponse.redirect(new URL('/login?e=server_error', req.url));

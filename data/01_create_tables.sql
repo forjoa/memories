@@ -27,6 +27,7 @@ create table memories (
   record_id uuid not null references records(id) on delete cascade,
   author_id uuid not null references users(id),
 
+  title text not null,
   data jsonb not null,
 
   valid_from timestamp not null,
