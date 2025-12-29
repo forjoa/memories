@@ -74,7 +74,7 @@ export default async function Login({
 
                 <div className="p-3">
                     <p className="text-accent-foreground text-center text-sm">
-                        don't have an account?
+                        don&apos;t have an account?
                         <Button
                             asChild
                             variant="link"
