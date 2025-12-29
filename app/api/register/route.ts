@@ -26,6 +26,7 @@ export async function POST(req: NextRequest) {
             [username, email, passwordHash]
         );
     } catch (error) {
+        console.error('Error during registration:', error);
         return NextResponse.redirect(new URL('/register?e=server_error', req.url));   
     }
     redirect('/login');
